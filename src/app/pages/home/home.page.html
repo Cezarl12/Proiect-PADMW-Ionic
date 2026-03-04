@@ -1,5 +1,5 @@
 <ion-content class="bg-white" [fullscreen]="true">
-  <div class="px-6 pt-14 pb-32">
+  <div class="px-6 pt-10 pb-12">
     <!-- Header -->
     <div class="mb-8">
       <h1 class="text-4xl text-gray-900 font-light leading-tight">
@@ -32,9 +32,9 @@
         ></div>
 
         <div
-          class="absolute top-4 left-4 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full"
+          class="absolute top-4 left-4 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full"
         >
-          <span class="text-white text-xs font-semibold tracking-wider"
+          <span class="text-black text-xs font-semibold tracking-wider"
             >{{ randomMeal.strCategory }}</span
           >
         </div>
@@ -71,36 +71,15 @@
       }
     </div>
 
-    <!-- Tags -->
-    @if (randomMeal?.strTags) {
-    <div class="flex gap-2 flex-wrap mb-8">
-      @for (tag of getTags(); track tag) {
-      <span
-        class="bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full"
-      >
-        #{{ tag }}
-      </span>
-      }
-    </div>
-    }
-
-    <!-- Quick stats -->
-
-    <!-- Explore button -->
     <button
       (click)="goToExplore()"
       class="w-full bg-gray-900 text-white rounded-2xl py-5 flex items-center justify-between px-6 active:scale-95 transition-transform duration-150"
     >
-      <div>
-        <p
-          class="text-xs text-gray-400 font-medium tracking-widest uppercase mb-0.5"
-        >
-          Hai să începem
-        </p>
+      <div class="px-5 py-2">
         <p class="text-lg font-bold">Explorează Rețete</p>
       </div>
       <svg
-        class="w-5 h-5"
+        class="w-5 h-5 mr-5"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -114,7 +93,6 @@
       </svg>
     </button>
 
-    <!-- Footer -->
     <p
       class="text-center text-gray-300 text-xs font-medium tracking-widest uppercase mt-10"
     >

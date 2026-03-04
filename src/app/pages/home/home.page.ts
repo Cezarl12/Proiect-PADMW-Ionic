@@ -31,16 +31,13 @@ export class HomePage implements OnInit {
         this.randomMeal = meal;
         this.isLoading = false;
       },
-      error: () => {
+      error: (err) => {
         this.isLoading = false;
+        console.log(err)
       }
     });
   }
 
-  getTags(): string[] {
-    if (!this.randomMeal?.strTags) return [];
-    return this.randomMeal.strTags.split(',').map(t => t.trim()).filter(Boolean);
-  }
 
   goToMeal(id: string) {
     this.router.navigate(['/tabs/meal', id]);

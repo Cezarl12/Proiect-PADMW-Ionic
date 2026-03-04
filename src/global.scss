@@ -43,5 +43,12 @@
 
 body {
   background-color: #ffffff !important;
-  font-family: "Inter", sans-serif; /* Sau fontul tău preferat */
+  font-family: "Inter", sans-serif;
+}
+
+ion-content::part(scroll) {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
