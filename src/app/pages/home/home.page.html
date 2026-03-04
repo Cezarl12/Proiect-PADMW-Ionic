@@ -1,0 +1,124 @@
+<ion-content class="bg-white" [fullscreen]="true">
+  <div class="px-6 pt-14 pb-32">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-4xl text-gray-900 font-light leading-tight">
+        Descoperă<br />
+        <span class="font-black">noi rețete</span>
+      </h1>
+    </div>
+
+    <!-- Meal of the day card -->
+    <div class="mb-8">
+      <p class="text-xs font-bold tracking-widest text-gray-400 uppercase mb-3">
+        ✦ Specialitatea Zilei
+      </p>
+
+      @if (isLoading) {
+      <div class="w-full h-72 bg-gray-100 rounded-3xl animate-pulse"></div>
+      } @if (!isLoading && randomMeal) {
+      <div
+        class="relative rounded-3xl overflow-hidden shadow-xl cursor-pointer group"
+        (click)="goToMeal(randomMeal.idMeal)"
+      >
+        <img
+          [src]="randomMeal.strMealThumb"
+          [alt]="randomMeal.strMeal"
+          class="w-full h-72 object-cover group-active:scale-105 transition-transform duration-300"
+        />
+
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"
+        ></div>
+
+        <div
+          class="absolute top-4 left-4 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full"
+        >
+          <span class="text-white text-xs font-semibold tracking-wider"
+            >{{ randomMeal.strCategory }}</span
+          >
+        </div>
+
+        <div
+          class="absolute top-4 right-4 bg-white rounded-full w-9 h-9 flex items-center justify-center shadow-lg"
+        >
+          <svg
+            class="w-4 h-4 text-gray-900"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2.5"
+              d="M7 17L17 7M17 7H7M17 7v10"
+            />
+          </svg>
+        </div>
+
+        <div class="absolute bottom-0 left-0 right-0 p-5">
+          <p
+            class="text-white/70 text-xs font-semibold tracking-widest uppercase mb-1"
+          >
+            {{ randomMeal.strArea }} · Rețeta zilei
+          </p>
+          <h2 class="text-white text-xl font-bold leading-tight">
+            {{ randomMeal.strMeal }}
+          </h2>
+        </div>
+      </div>
+      }
+    </div>
+
+    <!-- Tags -->
+    @if (randomMeal?.strTags) {
+    <div class="flex gap-2 flex-wrap mb-8">
+      @for (tag of getTags(); track tag) {
+      <span
+        class="bg-gray-100 text-gray-500 text-xs font-semibold px-3 py-1.5 rounded-full"
+      >
+        #{{ tag }}
+      </span>
+      }
+    </div>
+    }
+
+    <!-- Quick stats -->
+
+    <!-- Explore button -->
+    <button
+      (click)="goToExplore()"
+      class="w-full bg-gray-900 text-white rounded-2xl py-5 flex items-center justify-between px-6 active:scale-95 transition-transform duration-150"
+    >
+      <div>
+        <p
+          class="text-xs text-gray-400 font-medium tracking-widest uppercase mb-0.5"
+        >
+          Hai să începem
+        </p>
+        <p class="text-lg font-bold">Explorează Rețete</p>
+      </div>
+      <svg
+        class="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2.5"
+          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+        />
+      </svg>
+    </button>
+
+    <!-- Footer -->
+    <p
+      class="text-center text-gray-300 text-xs font-medium tracking-widest uppercase mt-10"
+    >
+      Inspirat de pasiune culinară
+    </p>
+  </div>
+</ion-content>

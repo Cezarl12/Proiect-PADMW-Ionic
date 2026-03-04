@@ -29,6 +29,12 @@ export class MealService {
     );
   }
 
+  getRandomMeal(): Observable<Meal | null> {
+    return this.http.get<MealResponse>(`${this.baseUrl}/random.php`).pipe(
+      map(res => (res.meals && res.meals.length > 0) ? res.meals[0] : null)
+    );
+  }
+
   getMealById(id: string): Observable<Meal | null> {
     return this.http.get<MealResponse>(`${this.baseUrl}/lookup.php?i=${id}`).pipe(
       map(res => res.meals ? res.meals[0] : null)
