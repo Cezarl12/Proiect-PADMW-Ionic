@@ -6,6 +6,7 @@ import { Meal } from 'src/app/models/meal';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MealService } from 'src/app/services/meal';
 import { HeaderPage } from '../../header/header.page';
+import { FavouriteService } from 'src/app/services/favourite';
 
 @Component({
   selector: 'app-results',
@@ -24,6 +25,7 @@ export class ResultsPage implements OnInit {
     private route: ActivatedRoute,
     private mealService: MealService,
     private router: Router,
+    private favourite: FavouriteService
   ) { }
 
   ngOnInit() {
@@ -46,6 +48,15 @@ export class ResultsPage implements OnInit {
 
   goToMeal(id: string) {
     this.router.navigate(['/meal', id]);
+  }
+
+  toggleFavourite(event: Event, meal: Meal) {
+    event.stopPropagation();
+    this.favourite.toggle(meal);
+  }
+
+  isFavourite(id: string): boolean {
+    return this.favourite.isFavourite(id);
   }
 
 }

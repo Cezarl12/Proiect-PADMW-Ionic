@@ -13,7 +13,7 @@ import { NavController } from '@ionic/angular';
 })
 export class HeaderPage {
 
-  @Input() title: string = '';
+  @Input() title: string | null = '';
 
   constructor(private navCtrl: NavController) { }
 

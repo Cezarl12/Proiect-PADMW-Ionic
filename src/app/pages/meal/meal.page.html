@@ -1,0 +1,142 @@
+<app-header [title]="meal?.strMeal | slice:0:20"></app-header>
+<ion-content [fullscreen]="true">
+  @if (isLoading) {
+  <div class="w-full h-72 bg-gray-100 animate-pulse"></div>
+  <div class="px-6 pt-4">
+    <div class="h-8 bg-gray-100 rounded-xl animate-pulse mb-3"></div>
+    <div class="h-4 bg-gray-100 rounded-xl animate-pulse w-1/2"></div>
+  </div>
+  } @if (!isLoading && meal) {
+
+  <div class="relative flex items-center justify-center">
+    <img
+      [src]="meal.strMealThumb"
+      [alt]="meal.strMeal"
+      class="w-full h-72 object-cover"
+    />
+    <div
+      class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"
+    ></div>
+
+    <button (click)="toggleFavourite()" class="absolute top-12 right-4">
+      <div
+        class="w-9 h-9 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center"
+      >
+        @if (isFav) {
+        <svg
+          class="w-5 h-5 text-red-500"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+          />
+        </svg>
+        } @else {
+        <svg
+          class="w-5 h-5 text-white"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+          />
+        </svg>
+        }
+      </div>
+    </button>
+  </div>
+
+  <div class="px-6 pt-6 pb-32">
+    <div class="mb-4">
+      <h1 class="text-3xl font-black text-gray-900 leading-tight mb-2">
+        {{ meal.strMeal }}
+      </h1>
+      <div class="flex items-center gap-2">
+        <span class="text-xs font-bold text-gray-400 uppercase tracking-widest"
+          >{{ meal.strArea }}</span
+        >
+        <span class="text-gray-300">•</span>
+        <span class="text-xs font-bold text-gray-400 uppercase tracking-widest"
+          >{{ meal.strCategory }}</span
+        >
+      </div>
+    </div>
+
+    @if (meal.strYoutube) {
+    <button
+      (click)="openYoutube()"
+      class="flex items-center gap-2 mb-8 active:scale-95 transition-transform"
+    >
+      <div
+        class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center"
+      >
+        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+          <path
+            d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"
+          />
+        </svg>
+      </div>
+      <div>
+        <p class="text-xs text-gray-400 font-medium">Urmărește rețeta</p>
+        <p class="text-sm font-bold text-gray-900">Vezi pe YouTube</p>
+      </div>
+      <svg
+        class="w-4 h-4 text-gray-400 ml-auto"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 5l7 7-7 7"
+        />
+      </svg>
+    </button>
+    }
+
+    <div class="mb-8">
+      <h2 class="text-xl font-black text-gray-900 mb-4">Ingrediente</h2>
+      <div class="space-y-3">
+        @for (ingredient of getIngredients(); track ingredient.name) {
+        <div
+          class="flex items-center justify-between py-3 border-b border-gray-100"
+        >
+          <div class="flex items-center gap-3">
+            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+            <span class="text-sm font-medium text-gray-700"
+              >{{ ingredient.name }}</span
+            >
+          </div>
+          <span class="text-sm text-gray-400 font-medium"
+            >{{ ingredient.measure }}</span
+          >
+        </div>
+        }
+      </div>
+    </div>
+
+    <div>
+      <h2 class="text-xl font-black text-gray-900 mb-4">Instrucțiuni</h2>
+      <div class="space-y-4">
+        @for (step of getSteps(); track $index) {
+        <div class="flex gap-4">
+          <div
+            class="w-8 h-8 bg-gray-900 rounded-full flex items-center justify-center flex-shrink-0"
+          >
+            <span class="text-white text-xs font-bold">{{ $index + 1 }}</span>
+          </div>
+          <p class="text-sm text-gray-600 leading-relaxed pt-1">{{ step }}</p>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+  }
+</ion-content>

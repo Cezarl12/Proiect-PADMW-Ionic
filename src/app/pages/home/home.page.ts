@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { IonContent } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonToolbar } from '@ionic/angular/standalone';
 import { MealService } from 'src/app/services/meal';
 import { Meal } from 'src/app/models/meal';
 
@@ -9,7 +9,7 @@ import { Meal } from 'src/app/models/meal';
   selector: 'app-home',
   templateUrl: './home.page.html',
   standalone: true,
-  imports: [CommonModule, IonContent],
+  imports: [CommonModule, IonContent, IonHeader, IonToolbar],
 })
 export class HomePage implements OnInit {
   randomMeal: Meal | null = null;
@@ -40,7 +40,7 @@ export class HomePage implements OnInit {
 
 
   goToMeal(id: string) {
-    this.router.navigate(['/tabs/meal', id]);
+    this.router.navigate(['/meal', id]);
   }
 
   goToExplore() {

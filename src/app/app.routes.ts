@@ -33,8 +33,9 @@ export const routes: Routes = [
     path: 'header',
     loadComponent: () => import('./pages/header/header.page').then(m => m.HeaderPage)
   },
-
-
-
+  {
+    path: 'meal/:id',
+    loadComponent: () => import('./pages/meal/meal.page').then(m => m.MealPage)
+  },
 
 ];
