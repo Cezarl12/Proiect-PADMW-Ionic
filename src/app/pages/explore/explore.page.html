@@ -1,0 +1,66 @@
+<app-header title="Explorează"></app-header>
+<ion-content [fullscreen]="true">
+  <div class="px-6 pt-4 pb-12">
+    <div class="mb-6">
+      <h1 class="text-2xl font-black text-gray-900 leading-tight">
+        Găsește rețeta<br />perfectă 🍽️
+      </h1>
+      <p class="text-sm text-gray-400 mt-1">
+        Caută după nume sau alege o categorie
+      </p>
+    </div>
+
+    <div class="relative mb-8">
+      <svg
+        class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+        />
+      </svg>
+      <input
+        type="text"
+        placeholder="Caută rețete "
+        [(ngModel)]="searchQuery"
+        (keyup.enter)="onSearch()"
+        class="w-full bg-gray-100 rounded-2xl py-4 pl-11 pr-4 text-sm text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-900 transition-all"
+      />
+    </div>
+
+    <p class="text-xs font-bold tracking-widest text-gray-400 uppercase mb-4">
+      Categorii
+    </p>
+
+    @if (isLoading) {
+    <div class="grid grid-cols-3 gap-3">
+      @for (i of skeletons; track i) {
+      <div class="bg-gray-100 rounded-2xl h-24 animate-pulse"></div>
+      }
+    </div>
+    } @if (!isLoading) {
+    <div class="grid grid-cols-3 gap-4">
+      @for (category of categories; track category.idCategory) {
+      <div
+        (click)="goToCategory(category.strCategory)"
+        class="bg-gray-100 shadow-xs rounded-2xl p-3 flex flex-col items-center gap-2 cursor-pointer active:scale-95 transition-transform active:bg-gray-200"
+      >
+        <img
+          [src]="category.strCategoryThumb"
+          [alt]="category.strCategory"
+          class="w-18 h-18 object-contain"
+        />
+        <p class="text-xs font-bold text-gray-700 text-center">
+          {{ category.strCategory }}
+        </p>
+      </div>
+      }
+    </div>
+    }
+  </div>
+</ion-content>

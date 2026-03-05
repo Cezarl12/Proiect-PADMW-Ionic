@@ -44,6 +44,6 @@ export class HomePage implements OnInit {
   }
 
   goToExplore() {
-    this.router.navigate(['/tabs/explora']);
+    this.router.navigate(['/explore']);
   }
 }

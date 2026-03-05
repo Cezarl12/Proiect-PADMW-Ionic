@@ -14,6 +14,27 @@ export const routes: Routes = [
         path: 'home',
         loadComponent: () => import('./pages/home/home.page').then(m => m.HomePage)
       },
+      {
+        path: 'explore',
+        loadComponent: () => import('./pages/explore/explore.page').then(m => m.ExplorePage),
+
+      },
+      {
+        path: 'favourite',
+        loadComponent: () => import('./pages/favourite/favourite.page').then(m => m.FavouritePage)
+      },
+      {
+        path: 'results',
+        loadComponent: () => import('./pages/explore/results/results.page').then(m => m.ResultsPage)
+      },
     ]
-  }
+  },
+  {
+    path: 'header',
+    loadComponent: () => import('./pages/header/header.page').then(m => m.HeaderPage)
+  },
+
+
+
+
 ];

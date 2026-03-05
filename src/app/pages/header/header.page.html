@@ -1,0 +1,27 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="shadow-xl">
+    <ion-buttons slot="start">
+      <button
+        (click)="goBack()"
+        class="ml-4 w-9 h-9 bg-gray-100 !rounded-full flex items-center justify-center active:scale-90 transition-transform"
+      >
+        <svg
+          class="w-6 h-6 text-gray-900"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2.5"
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+      </button>
+    </ion-buttons>
+    <ion-title class="font-black text-gray-900 text-center"
+      >{{title}}</ion-title
+    >
+  </ion-toolbar>
+</ion-header>
