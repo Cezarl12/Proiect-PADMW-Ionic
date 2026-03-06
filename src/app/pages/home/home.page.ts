@@ -14,6 +14,7 @@ import { Meal } from 'src/app/models/meal';
 export class HomePage implements OnInit {
   randomMeal: Meal | null = null;
   isLoading = true;
+  isLoggedIn = false
 
   constructor(
     private mealService: MealService,

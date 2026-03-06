@@ -14,6 +14,26 @@
         >RecipeHub</span
       >
     </div>
+
+    <div slot="end" class="mr-4">
+      @if (isLoggedIn) {
+      <button routerLink="/profile">
+        <div
+          class="w-9 h-9 bg-gray-900 rounded-full flex items-center justify-center"
+        >
+          <span class="text-white text-xs font-black">Cezar</span>
+        </div>
+      </button>
+      } @else {
+      <button routerLink="/login">
+        <div
+          class="bg-gray-900 text-white px-4 py-2 rounded-xl text-xs font-bold"
+        >
+          Login
+        </div>
+      </button>
+      }
+    </div>
   </ion-toolbar>
 </ion-header>
 
