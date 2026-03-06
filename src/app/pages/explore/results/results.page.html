@@ -37,7 +37,7 @@
           (click)="toggleFavourite($event, meal)"
           class="absolute top-2 right-2 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center"
         >
-          @if (isFavourite(meal.idMeal)) {
+          @if (favouriteIds.includes(meal.idMeal)) {
           <svg
             class="w-4 h-4 text-red-500"
             fill="currentColor"
@@ -89,7 +89,7 @@
           (click)="toggleFavourite($event, meal)"
           class="absolute bottom-2 right-2 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center"
         >
-          @if (isFavourite(meal.idMeal)) {
+          @if (favouriteIds.includes(meal.idMeal)) {
           <svg
             class="w-4 h-4 text-red-500"
             fill="currentColor"

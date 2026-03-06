@@ -20,6 +20,12 @@ export class ResultsPage implements OnInit {
   isLoading = true;
   title = '';
   skeletons = Array(8).fill(0);
+  favouriteIds: string[] = [];
+
+  async loadFavouriteIds() {
+    const favs = await this.favourite.getAll();
+    this.favouriteIds = favs.map(m => m.idMeal);
+  }
 
   constructor(
     private route: ActivatedRoute,
@@ -50,13 +56,13 @@ export class ResultsPage implements OnInit {
     this.router.navigate(['/meal', id]);
   }
 
-  toggleFavourite(event: Event, meal: Meal) {
+  async toggleFavourite(event: Event, meal: Meal) {
     event.stopPropagation();
-    this.favourite.toggle(meal);
+    await this.favourite.toggle(meal);
   }
 
-  isFavourite(id: string): boolean {
-    return this.favourite.isFavourite(id);
+  async isFavourite(id: string): Promise<boolean> {
+    return await this.favourite.isFavourite(id);
   }
 
 }

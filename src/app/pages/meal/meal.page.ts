@@ -27,13 +27,13 @@ export class MealPage implements OnInit {
     private favouriteService: FavouriteService
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.mealService.getMealById(id).subscribe({
-        next: (meal) => {
+        next: async (meal) => {
           this.meal = meal;
-          this.isFav = this.favouriteService.isFavourite(meal!.idMeal);
+          this.isFav = await this.favouriteService.isFavourite(meal!.idMeal);
           this.isLoading = false;
         },
         error: () => this.isLoading = false
@@ -62,9 +62,9 @@ export class MealPage implements OnInit {
       .filter(s => s.length > 20);
   }
 
-  toggleFavourite() {
+  async toggleFavourite() {
     if (!this.meal) return;
-    this.favouriteService.toggle(this.meal);
+    await this.favouriteService.toggle(this.meal);
     this.isFav = !this.isFav;
   }
 

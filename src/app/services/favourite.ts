@@ -1,35 +1,62 @@
 import { Injectable } from '@angular/core';
 import { Meal } from '../models/meal';
+import { DbService } from './db-service';
+import { AuthSerivce } from './auth-serivce';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FavouriteService {
-  private key = 'favourite_meals';
+  constructor(
+    private db: DbService,
+    private auth: AuthSerivce
+  ) { }
 
-  getAll(): Meal[] {
-    const data = localStorage.getItem(this.key);
-    return data ? JSON.parse(data) : [];
+  async getAll(): Promise<Meal[]> {
+    const user = this.auth.getCurrentUser();
+    if (!user?.id) return [];
+
+    const result = await this.db.getDb().query(
+      'SELECT meal_data FROM favourites WHERE user_id = ?',
+      [user.id]
+    );
+    return result.values?.map((row: any) => JSON.parse(row.meal_data)) || [];
   }
 
-  add(meal: Meal): void {
-    const favourites = this.getAll();
-    if (!this.isFavourite(meal.idMeal)) {
-      favourites.push(meal);
-      localStorage.setItem(this.key, JSON.stringify(favourites));
-    }
+  async add(meal: Meal): Promise<void> {
+    const user = this.auth.getCurrentUser();
+    if (!user?.id) return;
+
+    await this.db.getDb().run(
+      'INSERT INTO favourites (user_id, meal_id, meal_data) VALUES (?, ?, ?)',
+      [user.id, meal.idMeal, JSON.stringify(meal)]
+    );
   }
 
-  isFavourite(id: string): boolean {
-    return this.getAll().some(m => m.idMeal === id);
+  async remove(mealId: string): Promise<void> {
+    const user = this.auth.getCurrentUser();
+    if (!user?.id) return;
+
+    await this.db.getDb().run(
+      'DELETE FROM favourites WHERE user_id = ? AND meal_id = ?',
+      [user.id, mealId]
+    );
   }
 
-  toggle(meal: Meal): void {
-    this.isFavourite(meal.idMeal) ? this.remove(meal.idMeal) : this.add(meal);
+  async isFavourite(mealId: string): Promise<boolean> {
+    const user = this.auth.getCurrentUser();
+    if (!user?.id) return false;
+
+    const result = await this.db.getDb().query(
+      'SELECT id FROM favourites WHERE user_id = ? AND meal_id = ?',
+      [user.id, mealId]
+    );
+    return (result.values?.length ?? 0) > 0;
   }
 
-  remove(id: string): void {
-    const favourites = this.getAll().filter(m => m.idMeal !== id);
-    localStorage.setItem(this.key, JSON.stringify(favourites));
+  async toggle(meal: Meal): Promise<void> {
+    const fav = await this.isFavourite(meal.idMeal);
+    fav ? await this.remove(meal.idMeal) : await this.add(meal);
   }
+
 }

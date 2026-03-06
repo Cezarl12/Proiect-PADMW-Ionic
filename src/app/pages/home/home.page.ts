@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { IonContent, IonHeader, IonToolbar } from '@ionic/angular/standalone';
 import { MealService } from 'src/app/services/meal';
 import { Meal } from 'src/app/models/meal';
@@ -9,7 +9,7 @@ import { Meal } from 'src/app/models/meal';
   selector: 'app-home',
   templateUrl: './home.page.html',
   standalone: true,
-  imports: [CommonModule, IonContent, IonHeader, IonToolbar],
+  imports: [CommonModule, IonContent, IonHeader, IonToolbar, RouterLink],
 })
 export class HomePage implements OnInit {
   randomMeal: Meal | null = null;
