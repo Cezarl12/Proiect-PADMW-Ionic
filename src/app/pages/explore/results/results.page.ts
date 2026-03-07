@@ -34,7 +34,9 @@ export class ResultsPage implements OnInit {
     private toastCtrl: ToastController
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.favouriteIds = []
+    await this.loadFavouriteIds();
     this.route.queryParams.subscribe(params => {
       if (params['q']) {
         this.title = `"${params['q']}"`;
@@ -56,6 +58,10 @@ export class ResultsPage implements OnInit {
     this.router.navigate(['/meal', id]);
   }
 
+  async loadFavouriteIds() {
+    const favs = await this.favourite.getAll();
+    this.favouriteIds = favs.map(m => m.idMeal);
+  }
   async toggleFavourite(event: Event, meal: Meal) {
     event.stopPropagation();
 
@@ -76,9 +82,13 @@ export class ResultsPage implements OnInit {
       return;
     }
 
-  }
-
-  async isFavourite(id: string): Promise<boolean> {
-    return await this.favourite.isFavourite(id);
+    this.mealService.getMealById(meal.idMeal).subscribe({
+      next: async (fullMeal) => {
+        if (fullMeal) {
+          await this.favourite.toggle(fullMeal);
+          await this.loadFavouriteIds();
+        }
+      }
+    });
   }
 }

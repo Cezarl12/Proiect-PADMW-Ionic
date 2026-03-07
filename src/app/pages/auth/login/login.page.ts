@@ -6,6 +6,7 @@ import { HeaderPage } from '../../header/header.page';
 import { Router } from '@angular/router';
 import { AuthSerivce } from 'src/app/services/auth-serivce';
 import { ToastController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -31,7 +32,8 @@ export class LoginPage {
     private router: Router,
     private fb: FormBuilder,
     private authService: AuthSerivce,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private navCtrl: NavController
   ) { }
 
   async login() {
@@ -42,19 +44,11 @@ export class LoginPage {
     const { email, password } = this.form.value;
     const success = await this.authService.login(email, password);
     if (success) {
-      const toast = await this.toastCtrl.create({
-        message: 'Bine ai revenit!',
-        duration: 2000,
-        position: 'top',
-        color: 'success'
-      });
-      await toast.present();
-      this.router.navigate(['/home']);
+      this.navCtrl.navigateRoot('/home');
     } else {
       this.error = 'Email sau parolă greșită';
     }
   }
-
   goToRegister() {
     this.router.navigate(['/register']);
   }

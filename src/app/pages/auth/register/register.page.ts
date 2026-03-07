@@ -6,6 +6,7 @@ import { HeaderPage } from '../../header/header.page';
 import { Router } from '@angular/router';
 import { AuthSerivce } from 'src/app/services/auth-serivce';
 import { ToastController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-register',
@@ -32,7 +33,8 @@ export class RegisterPage {
     private router: Router,
     private fb: FormBuilder,
     private authService: AuthSerivce,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private navCtrl: NavController
   ) { }
 
   async register() {
@@ -43,15 +45,8 @@ export class RegisterPage {
     const { name, email, password } = this.form.value;
     const success = await this.authService.register(name, email, password);
     if (success) {
-      const toast = await this.toastCtrl.create({
-        message: 'Inregistrate efectuata cu succes!',
-        duration: 2000,
-        position: 'top',
-        color: 'success'
-      });
-      await toast.present();
       await this.authService.login(email, password);
-      this.router.navigate(['/home']);
+      this.navCtrl.navigateRoot('/home')
     } else {
       this.error = 'Email-ul este deja folosit';
     }

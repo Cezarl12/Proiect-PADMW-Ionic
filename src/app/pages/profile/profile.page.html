@@ -1,7 +1,7 @@
 <app-header title="Profile"></app-header>
 
 <ion-content [fullscreen]="true">
-  <div class="px-6 pt-8 pb-12">
+  <div class="px-6 pt-8 pb-10">
     @if (!isLoggedIn) {
     <div class="text-center py-32">
       <p class="text-6xl mb-4">👤</p>
@@ -28,16 +28,9 @@
       <h1 class="text-2xl font-black text-gray-900">{{ user.name }}</h1>
       <p class="text-sm text-gray-400 mt-1">{{ user.email }}</p>
     </div>
-
-    <div class="grid grid-cols-2 gap-3 mb-10">
-      <div class="bg-gray-50 rounded-2xl p-5 text-center">
-        <p class="text-3xl font-black text-gray-900">{{ favouriteCount }}</p>
-        <p class="text-xs text-gray-400 font-medium mt-1">Rețete favorite</p>
-      </div>
-      <div class="bg-gray-50 rounded-2xl p-5 text-center">
-        <p class="text-3xl font-black text-gray-900">🍽️</p>
-        <p class="text-xs text-gray-400 font-medium mt-1">RecipeHub</p>
-      </div>
+    <div class="bg-gray-50 rounded-2xl p-5 text-center">
+      <p class="text-3xl font-black text-gray-900">{{ favouriteCount }}</p>
+      <p class="text-xs text-gray-400 font-medium mt-1">Rețete favorite</p>
     </div>
 
     <button

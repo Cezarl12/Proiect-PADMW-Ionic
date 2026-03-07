@@ -55,7 +55,6 @@ export class HomePage implements OnInit {
 
   get initials(): string {
     const name = this.authService.getCurrentUser()?.name || '';
-    return name
-
+    return name.split(' ').map((n: string) => n[0]).join('').toUpperCase().substring(0, 2);
   }
 }
