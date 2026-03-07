@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonHeader, IonTitle, IonToolbar, IonButtons } from '@ionic/angular/standalone';
 import { NavController } from '@ionic/angular';
 import { RouterLink } from '@angular/router';
+import { AuthSerivce } from 'src/app/services/auth-serivce';
 
 @Component({
   selector: 'app-header',
@@ -15,9 +16,19 @@ import { RouterLink } from '@angular/router';
 export class HeaderPage {
 
   @Input() title: string | null = '';
-  isLoggedIn = false
 
-  constructor(private navCtrl: NavController) { }
+  constructor(private navCtrl: NavController, private authService: AuthSerivce) { }
+
+
+  get isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
+
+  get initials(): string {
+    const name = this.authService.getCurrentUser()?.name || '';
+    return name
+
+  }
 
   goBack() {
     this.navCtrl.back();

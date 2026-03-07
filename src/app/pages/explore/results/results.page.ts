@@ -7,6 +7,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MealService } from 'src/app/services/meal';
 import { HeaderPage } from '../../header/header.page';
 import { FavouriteService } from 'src/app/services/favourite';
+import { AuthSerivce } from 'src/app/services/auth-serivce';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-results',
@@ -22,16 +24,14 @@ export class ResultsPage implements OnInit {
   skeletons = Array(8).fill(0);
   favouriteIds: string[] = [];
 
-  async loadFavouriteIds() {
-    const favs = await this.favourite.getAll();
-    this.favouriteIds = favs.map(m => m.idMeal);
-  }
 
   constructor(
     private route: ActivatedRoute,
     private mealService: MealService,
     private router: Router,
-    private favourite: FavouriteService
+    private favourite: FavouriteService,
+    private authService: AuthSerivce,
+    private toastCtrl: ToastController
   ) { }
 
   ngOnInit() {
@@ -39,7 +39,7 @@ export class ResultsPage implements OnInit {
       if (params['q']) {
         this.title = `"${params['q']}"`;
         this.mealService.searchMeals(params['q']).subscribe({
-          next: (meals) => { this.meals = meals; this.isLoading = false; },
+          next: (meals) => { this.meals = meals; this.isLoading = false },
           error: () => this.isLoading = false
         });
       } else if (params['category']) {
@@ -58,11 +58,27 @@ export class ResultsPage implements OnInit {
 
   async toggleFavourite(event: Event, meal: Meal) {
     event.stopPropagation();
-    await this.favourite.toggle(meal);
+
+    if (!this.authService.isLoggedIn()) {
+      const toast = await this.toastCtrl.create({
+        message: '👤 Trebuie să fii logat pentru a salva rețete',
+        duration: 2500,
+        position: 'top',
+        color: 'warning',
+        buttons: [
+          {
+            text: 'Login',
+            handler: () => this.router.navigate(['/login'])
+          }
+        ]
+      });
+      await toast.present();
+      return;
+    }
+
   }
 
   async isFavourite(id: string): Promise<boolean> {
     return await this.favourite.isFavourite(id);
   }
-
 }

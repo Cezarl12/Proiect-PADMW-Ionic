@@ -5,6 +5,7 @@ import { IonContent } from '@ionic/angular/standalone';
 import { HeaderPage } from '../../header/header.page';
 import { Router } from '@angular/router';
 import { AuthSerivce } from 'src/app/services/auth-serivce';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -29,7 +30,8 @@ export class LoginPage {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private authService: AuthSerivce
+    private authService: AuthSerivce,
+    private toastCtrl: ToastController
   ) { }
 
   async login() {
@@ -40,6 +42,13 @@ export class LoginPage {
     const { email, password } = this.form.value;
     const success = await this.authService.login(email, password);
     if (success) {
+      const toast = await this.toastCtrl.create({
+        message: 'Bine ai revenit!',
+        duration: 2000,
+        position: 'top',
+        color: 'success'
+      });
+      await toast.present();
       this.router.navigate(['/home']);
     } else {
       this.error = 'Email sau parolă greșită';

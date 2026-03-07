@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { IonContent, IonHeader, IonToolbar } from '@ionic/angular/standalone';
 import { MealService } from 'src/app/services/meal';
 import { Meal } from 'src/app/models/meal';
+import { AuthSerivce } from 'src/app/services/auth-serivce';
 
 @Component({
   selector: 'app-home',
@@ -14,11 +15,11 @@ import { Meal } from 'src/app/models/meal';
 export class HomePage implements OnInit {
   randomMeal: Meal | null = null;
   isLoading = true;
-  isLoggedIn = false
 
   constructor(
     private mealService: MealService,
-    private router: Router
+    private router: Router,
+    private authService: AuthSerivce
   ) { }
 
   ngOnInit() {
@@ -46,5 +47,15 @@ export class HomePage implements OnInit {
 
   goToExplore() {
     this.router.navigate(['/explore']);
+  }
+
+  get isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
+
+  get initials(): string {
+    const name = this.authService.getCurrentUser()?.name || '';
+    return name
+
   }
 }

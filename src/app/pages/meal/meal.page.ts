@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonContent } from '@ionic/angular/standalone';
 import { HeaderPage } from '../header/header.page';
 import { Meal } from 'src/app/models/meal';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MealService } from 'src/app/services/meal';
 import { FavouriteService } from 'src/app/services/favourite';
+import { ToastController } from '@ionic/angular';
+import { AuthSerivce } from 'src/app/services/auth-serivce';
 
 @Component({
   selector: 'app-meal',
@@ -24,7 +26,10 @@ export class MealPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private mealService: MealService,
-    private favouriteService: FavouriteService
+    private favouriteService: FavouriteService,
+    private toastCtrl: ToastController,
+    private authService: AuthSerivce,
+    private router: Router,
   ) { }
 
   async ngOnInit() {
@@ -63,6 +68,23 @@ export class MealPage implements OnInit {
   }
 
   async toggleFavourite() {
+    if (!this.authService.isLoggedIn()) {
+      const toast = await this.toastCtrl.create({
+        message: '👤 Trebuie să fii logat pentru a salva rețete',
+        duration: 2500,
+        position: 'top',
+        color: 'warning',
+        buttons: [
+          {
+            text: 'Login',
+            handler: () => this.router.navigate(['/login'])
+          }
+        ]
+      });
+      await toast.present();
+      return;
+    }
+
     if (!this.meal) return;
     await this.favouriteService.toggle(this.meal);
     this.isFav = !this.isFav;
