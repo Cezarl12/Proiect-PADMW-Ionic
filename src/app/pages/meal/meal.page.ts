@@ -35,6 +35,14 @@ export class MealPage implements OnInit {
   async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
+      const cache = JSON.parse(localStorage.getItem(`fav_${String(this.authService.getCurrentUser()?.id)}`) || '{}');
+      if (cache[id]) {
+        this.meal = cache[id];
+        this.isFav = await this.favouriteService.isFavourite(id);
+        this.isLoading = false;
+        return;
+      }
+
       this.mealService.getMealById(id).subscribe({
         next: async (meal) => {
           this.meal = meal;

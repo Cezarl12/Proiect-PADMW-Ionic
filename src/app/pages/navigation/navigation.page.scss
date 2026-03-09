@@ -1,8 +1,10 @@
 ion-tab-bar {
-  --background: transparent;
+  --background: rgba(255, 255, 255, 0.8);
   --border: none;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
-
 ion-tab-button {
   --color: #9f9fa9;
   --color-selected: #111827;

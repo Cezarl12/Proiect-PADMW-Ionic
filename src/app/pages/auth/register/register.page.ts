@@ -46,7 +46,14 @@ export class RegisterPage {
     const success = await this.authService.register(name, email, password);
     if (success) {
       await this.authService.login(email, password);
-      this.navCtrl.navigateRoot('/home')
+      const toast = await this.toastCtrl.create({
+        message: '🎉 Cont creat cu succes!',
+        duration: 2000,
+        position: 'top',
+        color: 'success'
+      });
+      await toast.present();
+      this.navCtrl.navigateRoot('/home');
     } else {
       this.error = 'Email-ul este deja folosit';
     }

@@ -20,7 +20,13 @@ export class FavouriteService {
       'SELECT meal_data FROM favourites WHERE user_id = ?',
       [user.id]
     );
-    return result.values?.map((row: any) => JSON.parse(row.meal_data)) || [];
+    const meals = result.values?.map((row: any) => JSON.parse(row.meal_data)) || [];
+
+    const cache: any = {};
+    meals.forEach((m: Meal) => cache[m.idMeal] = m);
+    localStorage.setItem(`fav_${String(user.id)}`, JSON.stringify(cache));
+
+    return meals;
   }
 
   async add(meal: Meal): Promise<void> {
@@ -31,6 +37,10 @@ export class FavouriteService {
       'INSERT INTO favourites (user_id, meal_id, meal_data) VALUES (?, ?, ?)',
       [user.id, meal.idMeal, JSON.stringify(meal)]
     );
+
+    const cache = JSON.parse(localStorage.getItem(`fav_${String(user.id)}`) || '{}');
+    cache[meal.idMeal] = meal;
+    localStorage.setItem(`fav_${String(user.id)}`, JSON.stringify(cache));
   }
 
   async remove(mealId: string): Promise<void> {
@@ -41,6 +51,10 @@ export class FavouriteService {
       'DELETE FROM favourites WHERE user_id = ? AND meal_id = ?',
       [user.id, mealId]
     );
+
+    const cache = JSON.parse(localStorage.getItem(`fav_${String(user.id)}`) || '{}');
+    delete cache[mealId];
+    localStorage.setItem(`fav_${String(user.id)}`, JSON.stringify(cache));
   }
 
   async isFavourite(mealId: string): Promise<boolean> {

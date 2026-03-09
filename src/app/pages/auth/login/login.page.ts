@@ -44,6 +44,13 @@ export class LoginPage {
     const { email, password } = this.form.value;
     const success = await this.authService.login(email, password);
     if (success) {
+      const toast = await this.toastCtrl.create({
+        message: '👋 Bine ai revenit!',
+        duration: 2000,
+        position: 'top',
+        color: 'success'
+      });
+      await toast.present();
       this.navCtrl.navigateRoot('/home');
     } else {
       this.error = 'Email sau parolă greșită';
