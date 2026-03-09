@@ -4,7 +4,7 @@ import { IonContent, IonToast } from '@ionic/angular/standalone';
 import { Meal } from 'src/app/models/meal';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MealService } from 'src/app/services/meal';
-import { HeaderPage } from '../../header/header.page';
+import { HeaderPage } from '../header/header.page';
 import { FavouriteService } from 'src/app/services/favourite';
 import { AuthSerivce } from 'src/app/services/auth-serivce';
 
