@@ -1,35 +1,72 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Meal } from '../models/meal';
+import { AuthSerivce } from './auth-serivce';
+import { Firestore, collection, doc, setDoc, deleteDoc, getDocs, getDoc } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FavouriteService {
-  private key = 'favourite_meals';
 
-  getAll(): Meal[] {
-    const data = localStorage.getItem(this.key);
-    return data ? JSON.parse(data) : [];
-  }
+  private firestore = inject(Firestore);
+  private auth = inject(AuthSerivce);
 
-  add(meal: Meal): void {
-    const favourites = this.getAll();
-    if (!this.isFavourite(meal.idMeal)) {
-      favourites.push(meal);
-      localStorage.setItem(this.key, JSON.stringify(favourites));
+  async getAll(): Promise<Meal[]> {
+    const user = this.auth.getCurrentUser();
+    if (!user?.id) return [];
+
+    try {
+      const snapshot = await getDocs(collection(this.firestore, `favourites/${user.id}/meals`));
+      const meals = snapshot.docs.map(d => d.data() as Meal);
+
+      const cache: any = {};
+      meals.forEach(m => cache[m.idMeal] = m);
+      localStorage.setItem(`fav_${user.id}`, JSON.stringify(cache));
+
+      return meals;
+    } catch (e) {
+      const cache = JSON.parse(localStorage.getItem(`fav_${user.id}`) || '{}');
+      return Object.values(cache) as Meal[];
     }
   }
 
-  isFavourite(id: string): boolean {
-    return this.getAll().some(m => m.idMeal === id);
+  async add(meal: Meal): Promise<void> {
+    const user = this.auth.getCurrentUser();
+    if (!user?.id) return;
+
+    await setDoc(doc(this.firestore, `favourites/${user.id}/meals/${meal.idMeal}`), meal);
+
+    const cache = JSON.parse(localStorage.getItem(`fav_${user.id}`) || '{}');
+    cache[meal.idMeal] = meal;
+    localStorage.setItem(`fav_${user.id}`, JSON.stringify(cache));
   }
 
-  toggle(meal: Meal): void {
-    this.isFavourite(meal.idMeal) ? this.remove(meal.idMeal) : this.add(meal);
+  async remove(mealId: string): Promise<void> {
+    const user = this.auth.getCurrentUser();
+    if (!user?.id) return;
+
+    await deleteDoc(doc(this.firestore, `favourites/${user.id}/meals/${mealId}`));
+
+    const cache = JSON.parse(localStorage.getItem(`fav_${user.id}`) || '{}');
+    delete cache[mealId];
+    localStorage.setItem(`fav_${user.id}`, JSON.stringify(cache));
   }
 
-  remove(id: string): void {
-    const favourites = this.getAll().filter(m => m.idMeal !== id);
-    localStorage.setItem(this.key, JSON.stringify(favourites));
+  async isFavourite(mealId: string): Promise<boolean> {
+    const user = this.auth.getCurrentUser();
+    if (!user?.id) return false;
+
+    try {
+      const docSnap = await getDoc(doc(this.firestore, `favourites/${user.id}/meals/${mealId}`));
+      return docSnap.exists();
+    } catch (e) {
+      const cache = JSON.parse(localStorage.getItem(`fav_${user.id}`) || '{}');
+      return !!cache[mealId];
+    }
+  }
+
+  async toggle(meal: Meal): Promise<void> {
+    const fav = await this.isFavourite(meal.idMeal);
+    fav ? await this.remove(meal.idMeal) : await this.add(meal);
   }
 }

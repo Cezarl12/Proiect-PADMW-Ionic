@@ -22,14 +22,14 @@ export class FavouritePage {
     private router: Router
   ) { }
 
-  ionViewWillEnter() {
-    this.meals = this.favouriteService.getAll();
+  async ionViewWillEnter() {
+    this.meals = await this.favouriteService.getAll();
   }
 
-  removeFavourite(event: Event, id: string) {
+  async removeFavourite(event: Event, id: string) {
     event.stopPropagation();
-    this.favouriteService.remove(id);
-    this.meals = this.favouriteService.getAll();
+    await this.favouriteService.remove(id);
+    this.meals = await this.favouriteService.getAll();
   }
 
   goToMeal(id: string) {

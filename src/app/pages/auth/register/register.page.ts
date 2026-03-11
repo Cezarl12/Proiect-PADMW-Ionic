@@ -1,36 +1,62 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonContent } from '@ionic/angular/standalone';
 import { HeaderPage } from '../../header/header.page';
 import { Router } from '@angular/router';
+import { AuthSerivce } from 'src/app/services/auth-serivce';
+import { ToastController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
   standalone: true,
-  imports: [IonContent, CommonModule, FormsModule, HeaderPage]
+  imports: [IonContent, CommonModule, ReactiveFormsModule, HeaderPage]
 })
 export class RegisterPage {
-  name = '';
-  email = '';
-  password = '';
   showPassword = false;
   error = '';
 
-  constructor(private router: Router) { }
+  form: FormGroup = this.fb.group({
+    name: ['', [Validators.required, Validators.minLength(2)]],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
+  });
 
-  register() {
-    if (!this.name || !this.email || !this.password) {
-      this.error = 'Completează toate câmpurile';
+  get name() { return this.form.get('name'); }
+  get email() { return this.form.get('email'); }
+  get password() { return this.form.get('password'); }
+
+  constructor(
+    private router: Router,
+    private fb: FormBuilder,
+    private authService: AuthSerivce,
+    private toastCtrl: ToastController,
+    private navCtrl: NavController
+  ) { }
+
+  async register() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
       return;
     }
-    if (this.password.length < 6) {
-      this.error = 'Parola trebuie să aibă minim 6 caractere';
-      return;
+    const { name, email, password } = this.form.value;
+    const success = await this.authService.register(name, email, password);
+    if (success) {
+      await this.authService.login(email, password);
+      const toast = await this.toastCtrl.create({
+        message: '🎉 Cont creat cu succes!',
+        duration: 2000,
+        position: 'top',
+        color: 'success'
+      });
+      await toast.present();
+      this.navCtrl.navigateRoot('/home');
+    } else {
+      this.error = 'Email-ul este deja folosit';
     }
-    this.router.navigate(['/home']);
   }
 
   goToLogin() {

@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
   {
@@ -21,17 +22,23 @@ export const routes: Routes = [
       },
       {
         path: 'favourite',
-        loadComponent: () => import('./pages/favourite/favourite.page').then(m => m.FavouritePage)
+        loadComponent: () => import('./pages/favourite/favourite.page').then(m => m.FavouritePage),
+        canActivate: [authGuard]
       },
       {
-        path: 'results',
-        loadComponent: () => import('./pages/explore/results/results.page').then(m => m.ResultsPage)
+        path: 'profile',
+        loadComponent: () => import('./pages/profile/profile.page').then(m => m.ProfilePage)
       },
+
     ]
   },
   {
     path: 'header',
     loadComponent: () => import('./pages/header/header.page').then(m => m.HeaderPage)
+  },
+  {
+    path: 'results',
+    loadComponent: () => import('./pages/results/results.page').then(m => m.ResultsPage)
   },
   {
     path: 'meal/:id',
