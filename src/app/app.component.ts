@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
-import { DbService } from './services/db-service';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +7,8 @@ import { DbService } from './services/db-service';
   imports: [IonApp, IonRouterOutlet],
 })
 export class AppComponent implements OnInit {
-  constructor(private db: DbService) { }
+  constructor() { }
 
   async ngOnInit() {
-    await this.db.init();
   }
 }

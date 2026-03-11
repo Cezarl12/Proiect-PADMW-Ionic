@@ -1,76 +1,72 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Meal } from '../models/meal';
-import { DbService } from './db-service';
 import { AuthSerivce } from './auth-serivce';
+import { Firestore, collection, doc, setDoc, deleteDoc, getDocs, getDoc } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FavouriteService {
-  constructor(
-    private db: DbService,
-    private auth: AuthSerivce
-  ) { }
+
+  private firestore = inject(Firestore);
+  private auth = inject(AuthSerivce);
 
   async getAll(): Promise<Meal[]> {
     const user = this.auth.getCurrentUser();
     if (!user?.id) return [];
 
-    const result = await this.db.getDb().query(
-      'SELECT meal_data FROM favourites WHERE user_id = ?',
-      [user.id]
-    );
-    const meals = result.values?.map((row: any) => JSON.parse(row.meal_data)) || [];
+    try {
+      const snapshot = await getDocs(collection(this.firestore, `favourites/${user.id}/meals`));
+      const meals = snapshot.docs.map(d => d.data() as Meal);
 
-    const cache: any = {};
-    meals.forEach((m: Meal) => cache[m.idMeal] = m);
-    localStorage.setItem(`fav_${String(user.id)}`, JSON.stringify(cache));
+      const cache: any = {};
+      meals.forEach(m => cache[m.idMeal] = m);
+      localStorage.setItem(`fav_${user.id}`, JSON.stringify(cache));
 
-    return meals;
+      return meals;
+    } catch (e) {
+      const cache = JSON.parse(localStorage.getItem(`fav_${user.id}`) || '{}');
+      return Object.values(cache) as Meal[];
+    }
   }
 
   async add(meal: Meal): Promise<void> {
     const user = this.auth.getCurrentUser();
     if (!user?.id) return;
 
-    await this.db.getDb().run(
-      'INSERT INTO favourites (user_id, meal_id, meal_data) VALUES (?, ?, ?)',
-      [user.id, meal.idMeal, JSON.stringify(meal)]
-    );
+    await setDoc(doc(this.firestore, `favourites/${user.id}/meals/${meal.idMeal}`), meal);
 
-    const cache = JSON.parse(localStorage.getItem(`fav_${String(user.id)}`) || '{}');
+    const cache = JSON.parse(localStorage.getItem(`fav_${user.id}`) || '{}');
     cache[meal.idMeal] = meal;
-    localStorage.setItem(`fav_${String(user.id)}`, JSON.stringify(cache));
+    localStorage.setItem(`fav_${user.id}`, JSON.stringify(cache));
   }
 
   async remove(mealId: string): Promise<void> {
     const user = this.auth.getCurrentUser();
     if (!user?.id) return;
 
-    await this.db.getDb().run(
-      'DELETE FROM favourites WHERE user_id = ? AND meal_id = ?',
-      [user.id, mealId]
-    );
+    await deleteDoc(doc(this.firestore, `favourites/${user.id}/meals/${mealId}`));
 
-    const cache = JSON.parse(localStorage.getItem(`fav_${String(user.id)}`) || '{}');
+    const cache = JSON.parse(localStorage.getItem(`fav_${user.id}`) || '{}');
     delete cache[mealId];
-    localStorage.setItem(`fav_${String(user.id)}`, JSON.stringify(cache));
+    localStorage.setItem(`fav_${user.id}`, JSON.stringify(cache));
   }
 
   async isFavourite(mealId: string): Promise<boolean> {
     const user = this.auth.getCurrentUser();
     if (!user?.id) return false;
 
-    const result = await this.db.getDb().query(
-      'SELECT id FROM favourites WHERE user_id = ? AND meal_id = ?',
-      [user.id, mealId]
-    );
-    return (result.values?.length ?? 0) > 0;
+    try {
+      const docSnap = await getDoc(doc(this.firestore, `favourites/${user.id}/meals/${mealId}`));
+      return docSnap.exists();
+    } catch (e) {
+      const cache = JSON.parse(localStorage.getItem(`fav_${user.id}`) || '{}');
+      return !!cache[mealId];
+    }
   }
 
   async toggle(meal: Meal): Promise<void> {
     const fav = await this.isFavourite(meal.idMeal);
     fav ? await this.remove(meal.idMeal) : await this.add(meal);
   }
-
 }
