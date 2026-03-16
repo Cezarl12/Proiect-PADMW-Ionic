@@ -1,20 +1,28 @@
 <app-header title="{{title}}"></app-header>
 <ion-content [fullscreen]="true">
-  <div class="px-6 pt-4 pb-12">
+  <div class="px-6 pt-4 pb-12 bg-white dark:bg-gray-950">
     @if (isLoading) {
     <div class="grid grid-cols-2 gap-3">
       @for (i of skeletons; track i) {
-      <div class="bg-gray-100 rounded-2xl h-40 animate-pulse"></div>
+      <div
+        class="bg-gray-100 dark:bg-gray-800 rounded-2xl h-40 animate-pulse"
+      ></div>
       }
     </div>
     } @if (!isLoading && meals.length === 0) {
     <div class="text-center py-20">
       <p class="text-5xl mb-4">🍽️</p>
-      <p class="text-gray-900 font-bold text-lg">Nicio rețetă găsită</p>
-      <p class="text-gray-400 text-sm mt-1">Încearcă altă căutare</p>
+      <p class="text-gray-900 dark:text-white font-bold text-lg">
+        Nicio rețetă găsită
+      </p>
+      <p class="text-gray-400 dark:text-gray-500 text-sm mt-1">
+        Încearcă altă căutare
+      </p>
     </div>
     } @if (!isLoading && meals.length > 0) {
-    <p class="text-xs font-bold tracking-widest text-gray-400 uppercase mb-4">
+    <p
+      class="text-xs font-bold tracking-widest text-gray-400 dark:text-gray-500 uppercase mb-4"
+    >
       {{ meals.length }} rețete găsite
     </p>
     <div class="grid grid-cols-2 gap-3">
@@ -78,6 +86,7 @@
     }
   </div>
 </ion-content>
+
 <ion-toast
   [isOpen]="showToast"
   message="👤 Trebuie să fii logat pentru a salva rețete"

@@ -1,16 +1,18 @@
 <app-header title="Favorite"></app-header>
 
 <ion-content [fullscreen]="true">
-  <div class="px-6 pt-4 pb-12">
+  <div class="px-6 pt-4 pb-12 bg-white dark:bg-gray-950">
     @if (meals.length === 0) {
     <div class="text-center py-32">
-      <p class="text-gray-900 font-black text-xl">Nicio rețetă salvată</p>
-      <p class="text-gray-400 text-sm mt-2">
+      <p class="text-gray-900 dark:text-white font-black text-xl">
+        Nicio rețetă salvată
+      </p>
+      <p class="text-gray-400 dark:text-gray-500 text-sm mt-2">
         Apasă inima pe o rețetă ca să o salvezi
       </p>
       <button (click)="goToExplore()" class="w-full">
         <div
-          class="mt-8 bg-gray-900 text-white px-8 py-4 rounded-2xl font-bold text-sm active:scale-95 transition-transform flex items-center justify-center"
+          class="mt-8 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-8 py-4 rounded-2xl font-bold text-sm active:scale-95 transition-transform flex items-center justify-center"
         >
           Explorează rețete
         </div>
@@ -18,8 +20,10 @@
     </div>
     } @if (meals.length > 0) {
     <div class="mb-6">
-      <h1 class="text-2xl font-black text-gray-900">Rețetele tale</h1>
-      <p class="text-sm text-gray-400 mt-1">
+      <h1 class="text-2xl font-black text-gray-900 dark:text-white">
+        Rețetele tale
+      </h1>
+      <p class="text-sm text-gray-400 dark:text-gray-500 mt-1">
         {{ meals.length }} rețete salvate
       </p>
     </div>

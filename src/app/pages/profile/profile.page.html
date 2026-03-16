@@ -1,36 +1,48 @@
 <app-header title="Profile"></app-header>
 
 <ion-content [fullscreen]="true">
-  <div class="px-6 pt-8 pb-10">
+  <div class="px-6 pt-8 pb-10 bg-white dark:bg-gray-950 min-h-full">
     @if (!isLoggedIn) {
     <div class="text-center py-32">
       <p class="text-6xl mb-4">👤</p>
-      <p class="text-gray-900 font-black text-xl">Nu ești logat</p>
-      <p class="text-gray-400 text-sm mt-2">
+      <p class="text-gray-900 dark:text-white font-black text-xl">
+        Nu ești logat
+      </p>
+      <p class="text-gray-400 dark:text-gray-500 text-sm mt-2">
         Loghează-te pentru a vedea profilul
       </p>
       <button (click)="goToLogin()">
         <div
-          class="mt-8 bg-gray-900 text-white px-6 py-4 rounded-2xl font-bold text-sm active:scale-95 transition-transform"
+          class="mt-8 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-6 py-4 rounded-2xl font-bold text-sm active:scale-95 transition-transform"
         >
           Login
         </div>
       </button>
     </div>
     } @if (isLoggedIn && user) {
-
     <div class="flex flex-col items-center mb-10">
       <div
-        class="w-24 h-24 bg-gray-900 rounded-full flex items-center justify-center mb-4"
+        class="w-24 h-24 bg-gray-900 dark:bg-white rounded-full flex items-center justify-center mb-4"
       >
-        <span class="text-white text-3xl font-black">{{ initials }}</span>
+        <span class="text-white dark:text-gray-900 text-3xl font-black"
+          >{{ initials }}</span
+        >
       </div>
-      <h1 class="text-2xl font-black text-gray-900">{{ user.name }}</h1>
-      <p class="text-sm text-gray-400 mt-1">{{ user.email }}</p>
+      <h1 class="text-2xl font-black text-gray-900 dark:text-white">
+        {{ user.name }}
+      </h1>
+      <p class="text-sm text-gray-400 dark:text-gray-500 mt-1">
+        {{ user.email }}
+      </p>
     </div>
-    <div class="bg-gray-50 rounded-2xl p-5 text-center">
-      <p class="text-3xl font-black text-gray-900">{{ favouriteCount }}</p>
-      <p class="text-xs text-gray-400 font-medium mt-1">Rețete favorite</p>
+
+    <div class="bg-gray-50 dark:bg-gray-900 rounded-2xl p-5 text-center mb-8">
+      <p class="text-3xl font-black text-gray-900 dark:text-white">
+        {{ favouriteCount }}
+      </p>
+      <p class="text-xs text-gray-400 dark:text-gray-500 font-medium mt-1">
+        Rețete favorite
+      </p>
     </div>
 
     <button
@@ -56,7 +68,6 @@
         Deconectează-te
       </div>
     </button>
-
     }
   </div>
 </ion-content>

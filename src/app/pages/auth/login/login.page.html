@@ -1,12 +1,14 @@
 <app-header title="Login"></app-header>
 
 <ion-content [fullscreen]="true">
-  <div class="flex flex-col items-center min-h-full px-6 py-4 mt-4">
+  <div
+    class="flex flex-col items-center min-h-full px-6 py-4 mt-4 bg-white dark:bg-gray-950"
+  >
     <div
-      class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-2"
+      class="w-20 h-20 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mb-2"
     >
       <svg
-        class="w-10 h-10 text-green-500"
+        class="w-10 h-10 text-green-500 dark:text-green-400"
         viewBox="0 0 24 24"
         fill="currentColor"
       >
@@ -16,21 +18,27 @@
       </svg>
     </div>
 
-    <h1 class="text-3xl font-black text-gray-900 mb-2">Bun venit</h1>
-    <p class="text-sm text-gray-400 mb-10 text-center">
+    <h1 class="text-3xl font-black text-gray-900 dark:text-white mb-2">
+      Bun venit
+    </h1>
+    <p class="text-sm text-gray-400 dark:text-gray-500 mb-10 text-center">
       Introdu datele tale pentru a accesa rețetele
     </p>
 
     <div class="w-full space-y-4" [formGroup]="form">
       <div>
-        <label class="text-sm font-bold text-gray-700 mb-2 block">Email</label>
+        <label
+          class="text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 block"
+          >Email</label
+        >
         <input
           type="email"
           placeholder="exemplu@mail.com"
           formControlName="email"
-          class="w-full bg-white border rounded-2xl py-4 px-4 text-sm text-gray-900 placeholder-gray-300 outline-none transition-all"
+          class="w-full bg-white dark:bg-gray-900 border rounded-2xl py-4 px-4 text-sm text-gray-900 dark:text-white placeholder-gray-300 dark:placeholder-gray-600 outline-none transition-all"
           [class.border-red-400]="email?.invalid && email?.touched"
           [class.border-gray-200]="!(email?.invalid && email?.touched)"
+          [class.dark:border-gray-700]="!(email?.invalid && email?.touched)"
         />
         @if (email?.invalid && email?.touched) {
         <p class="text-red-500 text-xs mt-1 ml-1">
@@ -41,13 +49,16 @@
       </div>
 
       <div>
-        <label class="text-sm font-bold text-gray-700 mb-2 block">Parolă</label>
+        <label
+          class="text-sm font-bold text-gray-700 dark:text-gray-300 mb-2 block"
+          >Parolă</label
+        >
         <div class="relative">
           <input
             [type]="showPassword ? 'text' : 'password'"
             placeholder="••••••••"
             formControlName="password"
-            class="w-full bg-white border rounded-2xl py-4 px-4 pr-12 text-sm text-gray-900 placeholder-gray-300 outline-none transition-all"
+            class="w-full bg-white dark:bg-gray-900 border rounded-2xl py-4 px-4 pr-12 text-sm text-gray-900 dark:text-white placeholder-gray-300 dark:placeholder-gray-600 outline-none transition-all"
             [class.border-red-400]="password?.invalid && password?.touched"
             [class.border-gray-200]="!(password?.invalid && password?.touched)"
           />
@@ -57,7 +68,7 @@
           >
             @if (showPassword) {
             <svg
-              class="w-5 h-5 text-gray-400"
+              class="w-5 h-5 text-gray-400 dark:text-gray-500"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -71,7 +82,7 @@
             </svg>
             } @else {
             <svg
-              class="w-5 h-5 text-gray-400"
+              class="w-5 h-5 text-gray-400 dark:text-gray-500"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -106,21 +117,24 @@
 
       <button (click)="login()" class="w-full">
         <div
-          class="w-full bg-gray-900 text-white rounded-2xl py-4 px-6 font-bold text-sm active:scale-95 transition-transform flex items-center justify-center"
+          class="w-full bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-2xl py-4 px-6 font-bold text-sm active:scale-95 transition-transform flex items-center justify-center"
         >
           Login
         </div>
       </button>
 
       <div class="flex items-center gap-4 my-2">
-        <div class="flex-1 h-px bg-gray-200"></div>
-        <span class="text-xs font-bold text-gray-400 tracking-widest">SAU</span>
-        <div class="flex-1 h-px bg-gray-200"></div>
+        <div class="flex-1 h-px bg-gray-200 dark:bg-gray-700"></div>
+        <span
+          class="text-xs font-bold text-gray-400 dark:text-gray-500 tracking-widest"
+          >SAU</span
+        >
+        <div class="flex-1 h-px bg-gray-200 dark:bg-gray-700"></div>
       </div>
 
       <button (click)="goToRegister()" class="w-full">
         <div
-          class="w-full bg-white border-2 border-gray-900 text-gray-900 rounded-2xl py-4 font-bold text-sm active:scale-95 transition-transform flex items-center justify-center"
+          class="w-full bg-white dark:bg-gray-950 border-2 border-gray-900 dark:border-white text-gray-900 dark:text-white rounded-2xl py-4 font-bold text-sm active:scale-95 transition-transform flex items-center justify-center"
         >
           Creează cont
         </div>

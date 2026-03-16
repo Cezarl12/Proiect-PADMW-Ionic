@@ -1,13 +1,16 @@
 <app-header [title]="meal?.strMeal | slice:0:20"></app-header>
 <ion-content [fullscreen]="true">
   @if (isLoading) {
-  <div class="w-full h-72 bg-gray-100 animate-pulse"></div>
+  <div class="w-full h-72 bg-gray-100 dark:bg-gray-800 animate-pulse"></div>
   <div class="px-6 pt-4">
-    <div class="h-8 bg-gray-100 rounded-xl animate-pulse mb-3"></div>
-    <div class="h-4 bg-gray-100 rounded-xl animate-pulse w-1/2"></div>
+    <div
+      class="h-8 bg-gray-100 dark:bg-gray-800 rounded-xl animate-pulse mb-3"
+    ></div>
+    <div
+      class="h-4 bg-gray-100 dark:bg-gray-800 rounded-xl animate-pulse w-1/2"
+    ></div>
   </div>
   } @if (!isLoading && meal) {
-
   <div class="relative flex items-center justify-center">
     <img
       [src]="meal.strMealThumb"
@@ -51,17 +54,21 @@
     </button>
   </div>
 
-  <div class="px-6 pt-6 pb-32">
+  <div class="px-6 pt-6 pb-32 bg-white dark:bg-gray-950">
     <div class="mb-4">
-      <h1 class="text-3xl font-black text-gray-900 leading-tight mb-2">
+      <h1
+        class="text-3xl font-black text-gray-900 dark:text-white leading-tight mb-2"
+      >
         {{ meal.strMeal }}
       </h1>
       <div class="flex items-center gap-2">
-        <span class="text-xs font-bold text-gray-400 uppercase tracking-widest"
+        <span
+          class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest"
           >{{ meal.strArea }}</span
         >
-        <span class="text-gray-300">•</span>
-        <span class="text-xs font-bold text-gray-400 uppercase tracking-widest"
+        <span class="text-gray-300 dark:text-gray-600">•</span>
+        <span
+          class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest"
           >{{ meal.strCategory }}</span
         >
       </div>
@@ -70,10 +77,10 @@
     @if (meal.strYoutube) {
     <button
       (click)="openYoutube()"
-      class="flex items-center gap-2 mb-8 active:scale-95 transition-transform"
+      class="flex items-center gap-2 mb-8 active:scale-95 transition-transform w-full"
     >
       <div
-        class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center"
+        class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0"
       >
         <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
           <path
@@ -82,11 +89,15 @@
         </svg>
       </div>
       <div>
-        <p class="text-xs text-gray-400 font-medium">Urmărește rețeta</p>
-        <p class="text-sm font-bold text-gray-900">Vezi pe YouTube</p>
+        <p class="text-xs text-gray-400 dark:text-gray-500 font-medium">
+          Urmărește rețeta
+        </p>
+        <p class="text-sm font-bold text-gray-900 dark:text-white">
+          Vezi pe YouTube
+        </p>
       </div>
       <svg
-        class="w-4 h-4 text-gray-400 ml-auto"
+        class="w-4 h-4 text-gray-400 dark:text-gray-500 ml-auto"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -102,19 +113,21 @@
     }
 
     <div class="mb-8">
-      <h2 class="text-xl font-black text-gray-900 mb-4">Ingrediente</h2>
+      <h2 class="text-xl font-black text-gray-900 dark:text-white mb-4">
+        Ingrediente
+      </h2>
       <div class="space-y-3">
         @for (ingredient of getIngredients(); track ingredient.name) {
         <div
-          class="flex items-center justify-between py-3 border-b border-gray-100"
+          class="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-800"
         >
           <div class="flex items-center gap-3">
             <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-            <span class="text-sm font-medium text-gray-700"
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300"
               >{{ ingredient.name }}</span
             >
           </div>
-          <span class="text-sm text-gray-400 font-medium"
+          <span class="text-sm text-gray-400 dark:text-gray-500 font-medium"
             >{{ ingredient.measure }}</span
           >
         </div>
@@ -123,16 +136,24 @@
     </div>
 
     <div>
-      <h2 class="text-xl font-black text-gray-900 mb-4">Instrucțiuni</h2>
+      <h2 class="text-xl font-black text-gray-900 dark:text-white mb-4">
+        Instrucțiuni
+      </h2>
       <div class="space-y-4">
         @for (step of getSteps(); track $index) {
         <div class="flex gap-4">
           <div
-            class="w-8 h-8 bg-gray-900 rounded-full flex items-center justify-center flex-shrink-0"
+            class="w-8 h-8 bg-gray-900 dark:bg-white rounded-full flex items-center justify-center flex-shrink-0"
           >
-            <span class="text-white text-xs font-bold">{{ $index + 1 }}</span>
+            <span class="text-white dark:text-gray-900 text-xs font-bold"
+              >{{ $index + 1 }}</span
+            >
           </div>
-          <p class="text-sm text-gray-600 leading-relaxed pt-1">{{ step }}</p>
+          <p
+            class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed pt-1"
+          >
+            {{ step }}
+          </p>
         </div>
         }
       </div>

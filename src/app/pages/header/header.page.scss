@@ -1,4 +1,11 @@
-ion-toolbar {
-  --background: #ffffff;
-  --border-width: 0;
+@media (prefers-color-scheme: dark) {
+  ion-toolbar {
+    --background: #030712;
+    --color: #ffffff;
+    --border-color: transparent;
+  }
+
+  ion-title {
+    --color: #ffffff;
+  }
 }

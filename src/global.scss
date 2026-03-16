@@ -57,3 +57,25 @@ ion-toolbar {
   --background: #ffffff;
   --color: #111827;
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ion-background-color: #030712;
+    --ion-toolbar-background: #030712;
+    --ion-tab-bar-background: #030712;
+    --ion-text-color: #ffffff;
+    --ion-color-step-50: #0d0d0d;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  ion-toolbar {
+    --background: #030712;
+    --color: #ffffff;
+    --border-color: transparent;
+  }
+
+  ion-title {
+    --color: #ffffff;
+  }
+}

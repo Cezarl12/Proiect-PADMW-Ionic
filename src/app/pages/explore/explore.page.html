@@ -1,18 +1,20 @@
 <app-header title="Explorează"></app-header>
 <ion-content [fullscreen]="true">
-  <div class="px-6 pt-4 pb-12">
+  <div class="px-6 pt-4 pb-12 bg-white dark:bg-gray-950">
     <div class="mb-6">
-      <h1 class="text-2xl font-black text-gray-900 leading-tight">
-        Găsește <b> rețeta<br />perfectă</b>
+      <h1
+        class="text-2xl font-black text-gray-900 dark:text-white leading-tight"
+      >
+        Găsește <b>rețeta<br />perfectă</b>
       </h1>
-      <p class="text-sm text-gray-400 mt-1">
+      <p class="text-sm text-gray-400 dark:text-gray-500 mt-1">
         Caută după nume sau alege o categorie
       </p>
     </div>
 
     <div class="relative mb-8">
       <svg
-        class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
+        class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -26,21 +28,25 @@
       </svg>
       <input
         type="text"
-        placeholder="Caută rețete "
+        placeholder="Caută rețete"
         [(ngModel)]="searchQuery"
         (keyup.enter)="onSearch()"
-        class="w-full bg-gray-100 rounded-2xl py-4 pl-11 pr-4 text-sm text-gray-900 placeholder-gray-400 outline-none focus:ring-2 focus:ring-gray-900 transition-all"
+        class="w-full bg-gray-100 dark:bg-gray-900 rounded-2xl py-4 pl-11 pr-4 text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-600 outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-400 transition-all"
       />
     </div>
 
-    <p class="text-xs font-bold tracking-widest text-gray-400 uppercase mb-4">
+    <p
+      class="text-xs font-bold tracking-widest text-gray-400 dark:text-gray-500 uppercase mb-4"
+    >
       Categorii
     </p>
 
     @if (isLoading) {
     <div class="grid grid-cols-3 gap-3">
       @for (i of skeletons; track i) {
-      <div class="bg-gray-100 rounded-2xl h-24 animate-pulse"></div>
+      <div
+        class="bg-gray-100 dark:bg-gray-800 rounded-2xl h-24 animate-pulse"
+      ></div>
       }
     </div>
     } @if (!isLoading) {
@@ -48,14 +54,16 @@
       @for (category of categories; track category.idCategory) {
       <div
         (click)="goToCategory(category.strCategory)"
-        class="bg-gray-100 shadow-xs rounded-2xl p-3 flex flex-col items-center gap-2 cursor-pointer active:scale-95 transition-transform active:bg-gray-200"
+        class="bg-gray-100 dark:bg-gray-900 shadow-xs rounded-2xl p-3 flex flex-col items-center gap-2 cursor-pointer active:scale-95 transition-transform active:bg-gray-200 dark:active:bg-gray-800"
       >
         <img
           [src]="category.strCategoryThumb"
           [alt]="category.strCategory"
           class="w-18 h-18 object-contain"
         />
-        <p class="text-xs font-bold text-gray-700 text-center">
+        <p
+          class="text-xs font-bold text-gray-700 dark:text-gray-300 text-center"
+        >
           {{ category.strCategory }}
         </p>
       </div>

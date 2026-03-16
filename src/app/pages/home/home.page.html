@@ -1,8 +1,8 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar class="shadow-xl">
+  <ion-toolbar class="shadow-xl dark:bg-gray-950">
     <div slot="start" class="flex items-center gap-5 ml-4">
       <svg
-        class="w-8 h-8 text-gray-900"
+        class="w-8 h-8 text-gray-900 dark:text-white"
         viewBox="0 0 24 24"
         fill="currentColor"
       >
@@ -10,7 +10,8 @@
           d="M8.1 13.34l2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z"
         />
       </svg>
-      <span class="text-2xl font-black text-gray-900 tracking-tight"
+      <span
+        class="text-2xl font-black text-gray-900 dark:text-white tracking-tight"
         >RecipeHub</span
       >
     </div>
@@ -19,15 +20,17 @@
       @if (isLoggedIn) {
       <button routerLink="/profile">
         <div
-          class="w-9 h-9 bg-gray-900 rounded-full flex items-center justify-center"
+          class="w-9 h-9 bg-gray-900 dark:bg-white rounded-full flex items-center justify-center"
         >
-          <span class="text-white text-xs font-black">{{initials}}</span>
+          <span class="text-white dark:text-gray-900 text-xs font-black"
+            >{{initials}}</span
+          >
         </div>
       </button>
       } @else {
       <button routerLink="/login">
         <div
-          class="bg-gray-900 text-white px-4 py-2 rounded-xl text-xs font-bold"
+          class="bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-2 rounded-xl text-xs font-bold"
         >
           Login
         </div>
@@ -37,22 +40,28 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="bg-white" [fullscreen]="true">
-  <div class="px-6 pt-4 pb-12">
+<ion-content class="bg-white dark:bg-gray-950" [fullscreen]="true">
+  <div class="px-6 pt-4 pb-12 bg-white dark:bg-gray-950">
     <div class="mb-8">
-      <h1 class="text-4xl text-gray-900 font-light leading-tight">
+      <h1
+        class="text-4xl text-gray-900 dark:text-white font-light leading-tight"
+      >
         Descoperă<br />
         <span class="font-black">noi rețete</span>
       </h1>
     </div>
 
     <div class="mb-8">
-      <p class="text-xs font-bold tracking-widest text-gray-400 uppercase mb-3">
+      <p
+        class="text-xs font-bold tracking-widest text-gray-400 dark:text-gray-500 uppercase mb-3"
+      >
         ✦ Specialitatea Zilei
       </p>
 
       @if (isLoading) {
-      <div class="w-full h-72 bg-gray-100 rounded-3xl animate-pulse"></div>
+      <div
+        class="w-full h-72 bg-gray-100 dark:bg-gray-800 rounded-3xl animate-pulse"
+      ></div>
       } @if (!isLoading && randomMeal) {
       <div
         class="relative rounded-3xl overflow-hidden shadow-xl cursor-pointer group"
@@ -69,18 +78,19 @@
         ></div>
 
         <div
-          class="absolute top-4 left-4 bg-white/80 backdrop-blur-md px-3 py-1 rounded-full"
+          class="absolute top-4 left-4 bg-white/80 dark:bg-black/60 backdrop-blur-md px-3 py-1 rounded-full"
         >
-          <span class="text-black text-xs font-semibold tracking-wider"
+          <span
+            class="text-black dark:text-white text-xs font-semibold tracking-wider"
             >{{ randomMeal.strCategory }}</span
           >
         </div>
 
         <div
-          class="absolute top-4 right-4 bg-white rounded-full w-9 h-9 flex items-center justify-center shadow-lg"
+          class="absolute top-4 right-4 bg-white dark:bg-gray-800 rounded-full w-9 h-9 flex items-center justify-center shadow-lg"
         >
           <svg
-            class="w-4 h-4 text-gray-900"
+            class="w-4 h-4 text-gray-900 dark:text-white"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -110,7 +120,7 @@
 
     <button
       (click)="goToExplore()"
-      class="w-full bg-gray-700 text-white rounded-2xl py-5 flex items-center justify-between px-6 active:scale-95 transition-transform duration-150"
+      class="w-full bg-gray-700 dark:bg-gray-800 text-white rounded-2xl py-5 flex items-center justify-between px-6 active:scale-95 transition-transform duration-150"
     >
       <div class="px-5 py-2">
         <p class="text-lg font-bold">Explorează Rețete</p>
@@ -131,7 +141,7 @@
     </button>
 
     <p
-      class="text-center text-gray-300 text-xs font-medium tracking-widest uppercase mt-10"
+      class="text-center text-gray-300 dark:text-gray-600 text-xs font-medium tracking-widest uppercase mt-10"
     >
       Inspirat de pasiune culinară
     </p>
