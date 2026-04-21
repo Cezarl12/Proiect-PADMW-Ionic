@@ -35,10 +35,12 @@ export class MealPage implements OnInit {
   async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      const cache = JSON.parse(localStorage.getItem(`fav_${String(this.authService.getCurrentUser()?.id)}`) || '{}');
+      const userId = this.authService.getCurrentUser()?.id;
+      const cache = JSON.parse(localStorage.getItem(`fav_${String(userId)}`) || '{}');
+
       if (cache[id]) {
         this.meal = cache[id];
-        this.isFav = await this.favouriteService.isFavourite(id);
+        this.isFav = true;
         this.isLoading = false;
         return;
       }
@@ -46,7 +48,7 @@ export class MealPage implements OnInit {
       this.mealService.getMealById(id).subscribe({
         next: async (meal) => {
           this.meal = meal;
-          this.isFav = await this.favouriteService.isFavourite(meal!.idMeal);
+          this.isFav = !!cache[meal!.idMeal];
           this.isLoading = false;
         },
         error: () => this.isLoading = false

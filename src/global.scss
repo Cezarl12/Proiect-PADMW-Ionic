@@ -16,19 +16,13 @@
 @import "@ionic/angular/css/structure.css";
 @import "@ionic/angular/css/typography.css";
 @import "@ionic/angular/css/display.css";
+
 /* Optional CSS utils that can be commented out */
 @import "@ionic/angular/css/padding.css";
 @import "@ionic/angular/css/float-elements.css";
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
-
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
@@ -37,12 +31,12 @@
 @import "tailwindcss";
 
 :root {
-  --ion-background-color: #ffffff !important;
-  --ion-text-color: #333 !important;
+  --ion-background-color: #ffffff;
+  --ion-text-color: #333;
 }
 
 body {
-  background-color: #ffffff !important;
+  background-color: #ffffff;
   font-family: "Inter", sans-serif;
 }
 
@@ -63,12 +57,24 @@ ion-toolbar {
     --ion-background-color: #030712;
     --ion-toolbar-background: #030712;
     --ion-tab-bar-background: #030712;
+    --ion-tab-bar-color: #9ca3af;
+    --ion-tab-bar-color-selected: #ffffff;
     --ion-text-color: #ffffff;
     --ion-color-step-50: #0d0d0d;
   }
-}
 
-@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #030712;
+  }
+
+  ion-app {
+    background: #030712;
+  }
+
+  ion-content {
+    --background: #030712;
+  }
+
   ion-toolbar {
     --background: #030712;
     --color: #ffffff;
@@ -77,5 +83,25 @@ ion-toolbar {
 
   ion-title {
     --color: #ffffff;
+  }
+
+  ion-tab-bar {
+    --background: #030712;
+    border-top: 1px solid #1f2937;
+  }
+
+  ion-tab-button {
+    --background: #030712;
+    --color: #9ca3af;
+    --color-selected: #ffffff;
+  }
+
+  // Fix fundal alb la pagini cu continut putin
+  ion-router-outlet {
+    background: #030712;
+  }
+
+  .ion-page {
+    background: #030712;
   }
 }

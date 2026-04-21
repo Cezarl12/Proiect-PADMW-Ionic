@@ -1,3 +1,25 @@
+:root {
+  --ion-background-color: #ffffff;
+  --ion-text-color: #333;
+}
+
+body {
+  background-color: #ffffff;
+  font-family: "Inter", sans-serif;
+}
+
+ion-content::part(scroll) {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+ion-toolbar {
+  --background: #ffffff;
+  --color: #111827;
+}
+
 ion-tab-bar {
   --background: rgba(255, 255, 255, 0.8);
   --border: none;
@@ -5,8 +27,69 @@ ion-tab-bar {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
+
 ion-tab-button {
   --color: #9f9fa9;
   --color-selected: #111827;
+  --background: transparent;
+  --background-focused: transparent;
   --ripple-color: transparent;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ion-background-color: #030712;
+    --ion-toolbar-background: #030712;
+    --ion-tab-bar-background: #030712;
+    --ion-tab-bar-color: #9ca3af;
+    --ion-tab-bar-color-selected: #ffffff;
+    --ion-text-color: #ffffff;
+    --ion-color-step-50: #0d0d0d;
+  }
+
+  body {
+    background-color: #030712;
+  }
+
+  ion-app {
+    background: #030712;
+  }
+
+  ion-content {
+    --background: #030712;
+  }
+
+  ion-toolbar {
+    --background: #030712;
+    --color: #ffffff;
+    --border-color: transparent;
+  }
+
+  ion-title {
+    --color: #ffffff;
+  }
+
+  ion-tab-bar {
+    --background: rgba(3, 7, 18, 0.8);
+    --border: none;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  ion-tab-button {
+    --color: #6b7280;
+    --color-selected: #ffffff;
+    --background: transparent;
+    --background-focused: transparent;
+    --ripple-color: transparent;
+  }
+
+  ion-router-outlet {
+    background: #030712;
+  }
+
+  .ion-page {
+    background: #030712;
+  }
 }
